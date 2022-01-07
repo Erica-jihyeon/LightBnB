@@ -153,21 +153,17 @@ const getAllProperties = function (options, limit = 10) {
   JOIN property_reviews ON properties.id = property_id
   `;
 
-  const optionsArr = [];
   let minRating;
 
   if (options.owner_id) {
     queryParams.push(`${options.owner_id}`)
     queryString += `WHERE owner_id = $${queryParams.length} `;
   } else {
-    for (const option in options) {
-      optionsArr.push(options[option]);
-    }
-    console.log(optionsArr)
-    const city = optionsArr[0];
-    const minPrice = optionsArr[1] * 100;
-    const maxPrice = optionsArr[2] * 100;
-    minRating = optionsArr[3];
+    // console.log(options)
+    const city = options.city;
+    const minPrice = options.minimum_price_per_night * 100;
+    const maxPrice = options.maximum_price_per_night * 100;
+    minRating = options.minimum_rating;
 
     if (city) {
       queryParams.push(`%${options.city}%`);
